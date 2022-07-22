@@ -26,8 +26,10 @@ jobs:
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
           NEXT_PUBLIC_PIPEDREAM_API_URL: "https://eofdotsr4ewj68m.m.pipedream.net"
         run: |
-          echo $ENVIRONMENT | base64 -d > taskforce-next-admin/.env.production
+          echo $ENVIRONMENT | base64 -d > .env.production
           echo $(cat .env.production)
+          echo ==== ENVIRONMENT ====
+          echo $ENVIRONMENT | base64 -d
           npm i --legacy-peer-deps
           npm run build
           npm run export
