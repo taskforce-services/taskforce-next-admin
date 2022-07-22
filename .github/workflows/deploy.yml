@@ -21,7 +21,11 @@ jobs:
           cache: "npm"
 
       - name: Build
+        env:
+          # `base64 .env.production | pbcopy` and paste into github environment secrets for this repo
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
         run: |
+          echo $ENVIRONMENT | base64 -d > .env.production
           npm i --legacy-peer-deps
           npm run build
           npm run export
