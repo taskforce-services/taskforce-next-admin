@@ -24,9 +24,10 @@ jobs:
         env:
           # `base64 .env.production | pbcopy` and paste into github environment secrets for this repo
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+          NEXT_PUBLIC_PIPEDREAM_API_URL: "https://eofdotsr4ewj68m.m.pipedream.net"
         run: |
           echo $ENVIRONMENT | base64 -d > .env.production
-          cat .env.production
+          echo $(cat .env.production)
           npm i --legacy-peer-deps
           npm run build
           npm run export
