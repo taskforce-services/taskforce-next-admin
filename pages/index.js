@@ -18,7 +18,7 @@ export default function Home() {
             <Image
               height={144}
               width={144}
-              src="/images/settings.png"
+              src="/icons/settings.png"
               alt="Settings"
             />
             <h2 className="text-white font-sans">Settings</h2>
@@ -28,7 +28,7 @@ export default function Home() {
           </a>
 
           <a href="invoices">
-            <Image height={144} width={144} src="/images/bill.jpg" alt="Bill" />
+            <Image height={144} width={144} src="/icons/bill.jpg" alt="Bill" />
             <h2 className="text-white font-sans">Review Clockify</h2>
             <p className="text-white font-sans">
               Review monthly hours and create invoices.
