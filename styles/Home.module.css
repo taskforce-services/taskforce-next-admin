@@ -17,6 +17,55 @@
   align-items: center;
 }
 
+.keyForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 360px;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.submit {
+  width: 360px;
+  height: 40px;
+  background-color: green;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.keys {
+  line-break: anywhere;
+  width: 300px;
+  justify-content: center;
+  display: flex;
+}
+
+.loader {
+  border: 10px solid #f3f3f3; /* Light grey */
+  border-top: 10px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .footer {
   width: 100%;
   height: 100px;
