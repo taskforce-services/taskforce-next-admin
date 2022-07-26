@@ -2,8 +2,6 @@ import { useRouter } from "next/router";
 
 export default function Sidebar() {
   const router = useRouter();
-
-  console.log("pathname:", router.pathname);
   return (
     <div className="md:h-[100vh] md:w-3/12 sm:w-3/12 sm:h-auto bg-indigo">
       <main className="flex flex-row h-full">
