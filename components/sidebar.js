@@ -7,7 +7,10 @@ export default function Sidebar() {
   return (
     <div className="md:h-[100vh] md:w-3/12 sm:w-3/12 sm:h-auto bg-indigo">
       <main className="flex flex-row h-full">
-        <div key="navBar" className="flex justify-between flex-col h-full">
+        <div
+          key="navBar"
+          className="flex justify-between flex-col h-full w-11/12"
+        >
           <div>
             <p className="font-sans flex justify-center text-white text-2xl font-bold m-6">
               workflow
