@@ -4,7 +4,7 @@ import Sidebar from "../components/sidebar";
 
 export default function Index() {
   return (
-    <section className="m-10 w-10/12">
+    <section className="md:m-10 xs:m-2 w-10/12">
       <h1 className={styles.title}>
         Welcome to <a href="https://taskforce.services">Taskforce Services</a>!
       </h1>
