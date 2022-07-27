@@ -50,13 +50,15 @@ export default function Settings() {
         >
           Save
         </button>
+        {message && (
+          <>
+            <p className="w-full flex justify-center my-4">{message}</p>
+            {keys && (
+              <p className="w-full break-all flex justify-center">{keys}</p>
+            )}
+          </>
+        )}
       </form>
-      {message && (
-        <>
-          <p className={styles.keys}>{message}</p>
-          {keys && <p className={styles.keys}>{keys}</p>}
-        </>
-      )}
     </section>
   );
 }
