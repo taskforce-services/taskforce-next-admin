@@ -6,7 +6,9 @@ export default function Layout({ children }) {
       <Head>
         <title>Taskforce Services</title>
       </Head>
-      <main className="flex bg-gray-light">{children}</main>
+      <main className="flex bg-gray-light md:h-[100vh] xs:min-h-[100vh]">
+        {children}
+      </main>
     </>
   );
 }

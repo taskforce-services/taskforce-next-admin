@@ -5,7 +5,7 @@ import Sidebar from "../../components/sidebar";
 
 export default function Invoice() {
   return (
-    <section className="m-10 w-10/12">
+    <section className="md:m-10 xs:m-2 w-10/12">
       <Head>
         <title>Taskforce Monthly Invoicing</title>
         <link rel="icon" href="/taskforce-next-admin/favicon.ico" />

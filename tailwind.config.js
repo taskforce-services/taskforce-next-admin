@@ -5,6 +5,7 @@ module.exports = {
   ],
   theme: {
     screens: {
+      xs: "360px",
       sm: "480px",
       md: "768px",
       lg: "976px",
@@ -16,6 +17,7 @@ module.exports = {
       pink: "#ff49db",
       orange: "#ff7849",
       green: "#13ce66",
+      "forest-green": "#228B22",
       yellow: "#ffc82c",
       indigo: "rgb(67 56 202)",
       "gray-dark": "#273444",
