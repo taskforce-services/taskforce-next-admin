@@ -43,7 +43,9 @@ export default function Settings() {
           required
           value={key}
         />
-        {loader && <div className={styles.loader} />}
+        {loader && (
+          <div className="self-center border-8 border-gray border-t-skyblue rounded-full border-t-8 w-[3rem] h-[3rem] animate-spin mt-4" />
+        )}
         <button
           className="w-full text-white h-9 bg-forest-green mt-4"
           type="submit"
