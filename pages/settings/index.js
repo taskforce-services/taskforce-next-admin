@@ -30,8 +30,8 @@ export default function Settings() {
   };
 
   return (
-    <section className="md:m-10 xs:m-2 w-10/12">
-      <h1 className="text-5xl font-bold mt-9">Settings</h1>
+    <section className="md:m-10 xs:m-2 xs:ml-8 w-10/12">
+      <h1 className="xs:text-4xl sm:text-5xlfont-bold mt-9">Settings</h1>
       <form
         onSubmit={onSubmit}
         className="flex flex-col mt-10 bg-white max-w-md xs:w-full w-5/12 p-3"
