@@ -27,7 +27,7 @@ export default function Sidebar() {
       <div
         className={
           (sidebarOpen &&
-            "md:h-[100vh] md:w-3/12 sm:w-3/12 md:flex md:flex-col sm:h-auto bg-indigo xs:absolute md:relative sm:h-[100vh]") ||
+            "h-[100vh] md:w-3/12 sm:w-3/12 md:flex md:flex-col sm:h-auto bg-indigo xs:absolute md:relative sm:h-[100vh]") ||
           "hidden"
         }
       >
