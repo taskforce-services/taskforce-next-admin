@@ -25,12 +25,14 @@ jobs:
           # `base64 .env.production | pbcopy` and paste into github environment secrets for this repo
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
           NEXT_PUBLIC_PIPEDREAM_API_URL: https://eofdotsr4ewj68m.m.pipedream.net
+          NEXT_PUBLIC_PIPEDREAM_INVOICE_URL: https://eovuxgd9pdeohx.m.pipedream.net
         run: |
           # Extract the environment variables from the base64 encoded string into the .env.local for build
           echo $ENVIRONMENT | base64 -d > .env.local
-          npm i --legacy-peer-deps
-          npm run build
-          npm run export
+          npm install -g yarn
+          yarn install --frozen-lockfile
+          yarn run build
+          yarn run export
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
