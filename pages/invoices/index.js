@@ -1,41 +1,45 @@
 import Head from "next/head";
 import Layout from "../../components/layout";
 import Sidebar from "../../components/sidebar";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import moment from "moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Calendar from "../../components/Calendar";
+import { startOfMonth, lastDayOfMonth, sub, format } from "date-fns";
 
 export default function Invoice() {
   const [loader, setLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showCalendarStart, setShowCalendarStart] = useState(false);
+  const [showCalendarEnd, setShowCalendarEnd] = useState(false);
+  const result = sub(Date.now(), { months: 1 });
 
-  const today = moment().format("YYYY-MM-DD");
-  const lastDayOfLastMonth = moment(today)
-    .subtract(1, "months")
-    .endOf("month")
-    .format("YYYY-MM-DD");
-  const firstDayOfLastMonth = moment(today)
-    .subtract(1, "months")
-    .startOf("month")
-    .format("YYYY-MM-DD");
+  const firstDayOfLastMonth = startOfMonth(result);
+  const lastDayOfLastMonth = lastDayOfMonth(result);
+
   const [periodStart, setPeriodStart] = useState(firstDayOfLastMonth);
   const [periodEnd, setPeriodEnd] = useState(lastDayOfLastMonth);
-  let dateRange;
+  const toastClassname = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  };
 
   const onChangeEndDate = (e) => {
-    setPeriodEnd(e.target.value);
-    if (periodStart > e.target.value) {
-      toast.warn("End date cannot be earlier than the Start date", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+    if (showCalendarStart) {
+      setShowCalendarStart(false);
+    }
+    setShowCalendarEnd(!showCalendarEnd);
+    if (periodStart > periodEnd) {
+      toast.warn(
+        "End date cannot be earlier than the Start date",
+        toastClassname
+      );
     } else {
       setErrorMessage("");
     }
@@ -43,68 +47,33 @@ export default function Invoice() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setShowCalendarEnd(false);
+    setShowCalendarStart(false);
     if (!periodEnd || !periodStart) {
-      toast.error("Please select a date range", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.error("Please select a date range", toastClassname);
     } else {
       if (periodStart > periodEnd) {
-        toast.error("Please select a valid date range", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error("Please select a valid date range", toastClassname);
       } else {
         setLoader(true);
-        dateRange = { from: periodStart, to: periodEnd };
+        const dateRange = {
+          from: format(periodStart, "yyyy-MM-dd"),
+          to: format(periodEnd, "yyyy-MM-dd"),
+        };
         const key = localStorage.getItem("key");
         if (!key) {
           toast.error(
             "Please first enter your pipedream access key on the Settings screen.",
-            {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            }
+            toastClassname
           );
         } else {
           try {
             await axios.post(`/api/pipedreams/${key}`, dateRange);
-            toast.success("Invoice created successfully.", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
+            toast.success("Invoice created successfully.", toastClassname);
           } catch (error) {
             toast.error(
               "An error has occurred, please check you are using a valid key",
-              {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              }
+              toastClassname
             );
           }
         }
@@ -126,7 +95,7 @@ export default function Invoice() {
         </h1>
         <h2 className="text-xl flex font-semibold mt-9">
           1. Review all records in
-          <a href="https://app.clockify.me/reports/summary">
+          <a href="https://app.clockify.me/reports/summary" target="_blank">
             <h2 className="ml-2 text-blue underline font-sans text-xl">
               clockify.me
             </h2>
@@ -139,24 +108,45 @@ export default function Invoice() {
           <form className="flex flex-col mt-10 bg-white max-w-md xs:w-full w-5/12 p-3">
             <label className="text-xl font-semibold">Period Start</label>
             <input
-              type="date"
               className="border w-full h-9 mt-4 rounded border-gray"
-              required
-              value={periodStart}
-              onChange={(e) => setPeriodStart(e.target.value)}
+              onClick={() => {
+                if (showCalendarEnd) {
+                  setShowCalendarEnd(false);
+                }
+                setShowCalendarStart(!showCalendarStart);
+              }}
+              readOnly
+              value={format(periodStart, "yyyy-MM-dd")}
             />
+            <div className="ml-0">
+              {showCalendarStart && (
+                <Calendar
+                  selectedDay={periodStart}
+                  setSelectedDay={setPeriodStart}
+                />
+              )}
+            </div>
           </form>
           <form className="md:ml-2 flex flex-col mt-10 bg-white max-w-md xs:w-full w-9/12 p-3">
             <label className="text-xl font-semibold">Period End</label>
             <input
-              type="date"
               className="border w-full h-9 mt-4 rounded border-gray"
-              required
-              value={periodEnd}
-              onChange={(e) => onChangeEndDate(e)}
+              onClick={onChangeEndDate}
+              readOnly
+              value={format(periodEnd, "yyyy-MM-dd")}
             />
+
+            <div className="ml-0">
+              {showCalendarEnd && (
+                <Calendar
+                  selectedDay={periodEnd}
+                  setSelectedDay={setPeriodEnd}
+                />
+              )}
+            </div>
           </form>
         </div>
+
         <div className="flex flex-col max-w-4xl">
           {errorMessage && (
             <span className="text-sm text-red">{errorMessage}</span>
@@ -172,7 +162,12 @@ export default function Invoice() {
           </button>
         </div>
         <h2 className="text-xl flex font-semibold mt-9">
-          3. Review all invoices and send
+          3. Review invoice records and send via
+          <a href="https://dashboard.stripe.com/invoices" target="_blank">
+            <h2 className="ml-2 text-blue underline font-sans text-xl">
+              stripe.com
+            </h2>
+          </a>
         </h2>
         <ToastContainer
           position="top-right"
