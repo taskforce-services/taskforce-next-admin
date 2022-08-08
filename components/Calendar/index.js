@@ -18,7 +18,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Calendar = ({ ref, selectedDay, setSelectedDay }) => {
+const Calendar = ({ innerRef, selectedDay, setSelectedDay }) => {
   let [currentMonth, setCurrentMonth] = useState(
     format(sub(Date.now(), { months: 1 }), "MMM-yyyy")
   );
@@ -40,7 +40,7 @@ const Calendar = ({ ref, selectedDay, setSelectedDay }) => {
   }
 
   return (
-    <div ref={ref} className="absolute bg-white pt-2">
+    <div ref={innerRef} className="absolute bg-white pt-2">
       <div className="max-w-md px-4 mx-auto sm:px-7 md:max-w-4xl md:px-6">
         <div className="md:grid md:divide-x md:divide-gray-200">
           <div className="">

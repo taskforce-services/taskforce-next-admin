@@ -20,6 +20,24 @@ export default function Invoice() {
 
   const [periodStart, setPeriodStart] = useState(firstDayOfLastMonth);
   const [periodEnd, setPeriodEnd] = useState(lastDayOfLastMonth);
+  const ref = useRef(null);
+  const startRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setShowCalendarEnd(false);
+      }
+      if (startRef.current && !startRef.current.contains(event.target)) {
+        setShowCalendarStart(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
+
   const toastClassname = {
     position: "top-right",
     autoClose: 5000,
@@ -121,6 +139,7 @@ export default function Invoice() {
             <div className="ml-0">
               {showCalendarStart && (
                 <Calendar
+                  innerRef={startRef}
                   selectedDay={periodStart}
                   setSelectedDay={setPeriodStart}
                 />
@@ -139,6 +158,7 @@ export default function Invoice() {
             <div className="ml-0">
               {showCalendarEnd && (
                 <Calendar
+                  innerRef={ref}
                   selectedDay={periodEnd}
                   setSelectedDay={setPeriodEnd}
                 />
