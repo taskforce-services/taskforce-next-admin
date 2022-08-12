@@ -2,23 +2,24 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { HomeIcon, MenuIcon, UsersIcon, XIcon } from "@heroicons/react/outline";
-
-const navigation = [
-  { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
-  {
-    name: "Monthly Billing",
-    href: "/invoices",
-    icon: UsersIcon,
-    current: false,
-  },
-];
+import { useRouter } from "next/router";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const navigation = [
+  { name: "Dashboard", href: "/", icon: HomeIcon },
+  {
+    name: "Monthly Billing",
+    href: "invoices",
+    icon: UsersIcon,
+  },
+];
+
 export default function Template({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -76,20 +77,27 @@ export default function Template({ children }) {
                     </div>
                   </Transition.Child>
                   <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-                    <div className="flex-shrink-0 flex items-center px-4">
+                    <a
+                      href="/"
+                      className="flex-shrink-0 flex items-center px-4"
+                    >
                       <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg"
-                        alt="Workflow"
+                        className="h-11 w-auto"
+                        src="favicon.ico"
+                        alt="Taskforce"
                       />
-                    </div>
+                      <text className="text-white text-2xl font-bold">
+                        Taskforce
+                      </text>
+                    </a>
                     <nav className="mt-5 px-2 space-y-1">
                       {navigation.map((item) => (
                         <a
                           key={item.name}
                           href={item.href}
                           className={classNames(
-                            item.current
+                            router.pathname === `/${item.href}` ||
+                              router.pathname === `${item.href}`
                               ? "bg-indigo-800 text-white"
                               : "text-white hover:bg-indigo-600 hover:bg-opacity-75",
                             "group flex items-center px-2 py-2 text-base font-medium rounded-md"
@@ -105,21 +113,33 @@ export default function Template({ children }) {
                     </nav>
                   </div>
                   <div className="flex-shrink-0 flex border-t border-indigo-800 p-4">
-                    <a href="#" className="flex-shrink-0 group block">
+                    <a href="settings" className="flex-shrink-0 group block">
                       <div className="flex items-center">
                         <div>
-                          <img
+                          <svg
                             className="inline-block h-10 w-10 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                          />
+                            fill="none"
+                            stroke="#c0c0c0"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                            ></path>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            ></path>
+                          </svg>
                         </div>
                         <div className="ml-3">
                           <p className="text-base font-medium text-white">
-                            Tom Cook
-                          </p>
-                          <p className="text-sm font-medium text-indigo-200 group-hover:text-white">
-                            View profile
+                            Settings
                           </p>
                         </div>
                       </div>
@@ -139,20 +159,22 @@ export default function Template({ children }) {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex-1 flex flex-col min-h-0 bg-indigo-700">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-              <div className="flex items-center flex-shrink-0 px-4">
+              <a href="/" className="flex items-center flex-shrink-0 px-4">
                 <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg"
-                  alt="Workflow"
+                  className="h-11 w-auto"
+                  src="favicon.ico"
+                  alt="Taskforce"
                 />
-              </div>
+                <text className="text-white text-2xl font-bold">Taskforce</text>
+              </a>
               <nav className="mt-5 flex-1 px-2 space-y-1">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current
+                      router.pathname === `/${item.href}` ||
+                        router.pathname === `${item.href}`
                         ? "bg-indigo-800 text-white"
                         : "text-white hover:bg-indigo-600 hover:bg-opacity-75",
                       "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
@@ -168,7 +190,7 @@ export default function Template({ children }) {
               </nav>
             </div>
             <div className="flex-shrink-0 flex border-t border-indigo-800 p-4">
-              <a href="/settings" className="flex-shrink-0 w-full group block">
+              <a href="settings" className="flex-shrink-0 w-full group block">
                 <div className="flex items-center">
                   <div>
                     <svg
@@ -211,7 +233,7 @@ export default function Template({ children }) {
               <MenuIcon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 xs:flex xs:justify-center">{children}</main>
         </div>
       </div>
     </>
