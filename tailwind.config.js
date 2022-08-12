@@ -34,6 +34,8 @@ module.exports = {
       "indigo-200": "#c7d2fe",
       "gray-light": "#f5f5f5",
       "gray-100": "rgb(243 244 246)",
+      "gray-300": "rgb(209 213 219)",
+      "gray-400": "rgb(156 163 175)",
       "gray-600": "rgb(75 85 99)",
     },
     fontFamily: {
